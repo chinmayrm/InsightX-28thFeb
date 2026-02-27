@@ -1,9 +1,33 @@
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 import { TubesBackground } from "@/components/ui/neon-flow"
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button"
+import { AnimatedSocialIcons } from "@/components/ui/floating-action-button"
+import { Github, Instagram, Linkedin, Phone, Mail } from "lucide-react"
 
 export function MainPage() {
   const navigate = useNavigate()
+  const [copied, setCopied] = useState<string | null>(null)
+  
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text)
+    setCopied(label)
+    setTimeout(() => setCopied(null), 2000)
+  }
+  
+  // Left side - Social links
+  const socialIcons = [
+    { Icon: Github, href: "https://github.com/chinmayrm" },
+    { Icon: Instagram, href: "https://www.instagram.com/chinmay.mov/" },
+    { Icon: Linkedin, href: "https://www.linkedin.com/in/chinmay-rm/" },
+  ]
+  
+  // Right side - Contact (copy to clipboard)
+  const contactIcons = [
+    { Icon: Phone, onClick: () => copyToClipboard("8073087576", "Phone") },
+    { Icon: Mail, onClick: () => copyToClipboard("csechinmayrm@gmail.com", "Email") },
+  ]
+  
   const teamMembers = [
     { name: "Chinmay R M", role: "Team Lead" },
     { name: "Sameer P", role: "Frontend Developer" },
@@ -13,6 +37,29 @@ export function MainPage() {
 
   return (
     <TubesBackground className="min-h-screen">
+      {/* Left side - Social Icons */}
+      <div className="fixed left-4 top-1/2 -translate-y-1/2 z-50 pointer-events-auto">
+        <AnimatedSocialIcons 
+          icons={socialIcons}
+          iconSize={18}
+        />
+      </div>
+      
+      {/* Right side - Contact Icons */}
+      <div className="fixed right-4 top-1/2 -translate-y-1/2 z-50 pointer-events-auto">
+        <AnimatedSocialIcons 
+          icons={contactIcons}
+          iconSize={18}
+        />
+      </div>
+
+      {/* Copied notification toast */}
+      {copied && (
+        <div className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg text-sm font-medium animate-pulse">
+          {copied} copied to clipboard!
+        </div>
+      )}
+
       <div className="min-h-screen flex flex-col items-center justify-start pt-12 pb-20 pointer-events-auto">
         {/* Hero Section */}
         <div className="text-center px-4">
