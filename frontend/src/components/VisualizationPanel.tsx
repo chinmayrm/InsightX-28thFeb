@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
   ResponsiveContainer,
@@ -136,14 +137,35 @@ export function VisualizationPanel({ results, patientName, onClose }: Visualizat
 
   // Medical expenses trend in INR (monthly breakdown)
   const monthlyExpense = results.medical_expenses.predicted_expenses / 12
-  const expensesData = [
+  const [selectedPeriod, setSelectedPeriod] = useState<string>('1y')
+  
+  const allExpensesData = [
     { month: 'Jan', amount: Math.round(monthlyExpense * 0.8) },
     { month: 'Feb', amount: Math.round(monthlyExpense * 0.9) },
     { month: 'Mar', amount: Math.round(monthlyExpense * 0.85) },
     { month: 'Apr', amount: Math.round(monthlyExpense * 1.1) },
     { month: 'May', amount: Math.round(monthlyExpense * 0.95) },
     { month: 'Jun', amount: Math.round(monthlyExpense) },
+    { month: 'Jul', amount: Math.round(monthlyExpense * 1.05) },
+    { month: 'Aug', amount: Math.round(monthlyExpense * 0.92) },
+    { month: 'Sep', amount: Math.round(monthlyExpense * 1.08) },
+    { month: 'Oct', amount: Math.round(monthlyExpense * 0.88) },
+    { month: 'Nov', amount: Math.round(monthlyExpense * 1.02) },
+    { month: 'Dec', amount: Math.round(monthlyExpense * 1.15) },
   ]
+  
+  const getFilteredExpensesData = () => {
+    switch (selectedPeriod) {
+      case '1m': return allExpensesData.slice(-1)
+      case '3m': return allExpensesData.slice(-3)
+      case '6m': return allExpensesData.slice(-6)
+      case '1y': return allExpensesData
+      case 'All': return allExpensesData
+      default: return allExpensesData
+    }
+  }
+  
+  const expensesData = getFilteredExpensesData()
 
   // BMI and Glucose trend
   const metricsData = [
@@ -386,8 +408,12 @@ export function VisualizationPanel({ results, patientName, onClose }: Visualizat
                 <p className="text-sm text-blue-600/70">Monthly avg: {formatINR(monthlyExpense)}</p>
               </div>
               <div className="flex gap-2">
-                {['1m', '3m', '6m', '1y', 'All'].map((period, i) => (
-                  <button key={period} className={`px-3 py-1 rounded-lg text-sm ${i === 3 ? 'bg-blue-600 text-white' : 'text-blue-600 hover:bg-blue-50'}`}>
+                {['1m', '3m', '6m', '1y', 'All'].map((period) => (
+                  <button 
+                    key={period} 
+                    onClick={() => setSelectedPeriod(period)}
+                    className={`px-3 py-1 rounded-lg text-sm transition-colors ${selectedPeriod === period ? 'bg-blue-600 text-white' : 'text-blue-600 hover:bg-blue-50'}`}
+                  >
                     {period}
                   </button>
                 ))}
@@ -479,26 +505,26 @@ export function VisualizationPanel({ results, patientName, onClose }: Visualizat
                 </div>
               </div>
               
-              {/* Recommendations & Predictions */}
+              {/* Tasks to be Performed */}
               <div>
-                <h4 className="font-semibold text-blue-800 mb-3">ML Model Predictions</h4>
+                <h4 className="font-semibold text-blue-800 mb-3">Tasks to be Performed</h4>
                 <div className="space-y-3 text-sm">
                   <div className="p-3 rounded-lg bg-white/80 border border-blue-100">
-                    <p className="text-blue-600">Risk Classification (KNN)</p>
-                    <p className="font-semibold text-blue-900">{results.risk_category.risk_category} Risk ({Math.round(results.risk_category.probabilities[results.risk_category.risk_category as keyof typeof results.risk_category.probabilities])}% confidence)</p>
+                    <p className="text-blue-600">Linear Regression – Predict Medical Expenses</p>
+                    <p className="font-semibold text-blue-900">{formatINR(results.medical_expenses.predicted_expenses)}</p>
                   </div>
                   <div className="p-3 rounded-lg bg-white/80 border border-blue-100">
-                    <p className="text-blue-600">Disease Prediction (Random Forest)</p>
+                    <p className="text-blue-600">Decision Tree – Classify Disease Presence</p>
                     <p className={`font-semibold ${results.disease_presence.disease_present ? 'text-red-600' : 'text-green-600'}`}>
                       {results.disease_presence.disease_present ? 'Risk Indicators Present' : 'No Disease Indicators'} ({Math.round(results.disease_presence.confidence)}% confidence)
                     </p>
                   </div>
                   <div className="p-3 rounded-lg bg-white/80 border border-blue-100">
-                    <p className="text-blue-600">Est. Annual Expenses (Ridge Regression)</p>
-                    <p className="font-semibold text-blue-900">{formatINR(results.medical_expenses.predicted_expenses)}</p>
+                    <p className="text-blue-600">KNN – Predict Risk Category</p>
+                    <p className="font-semibold text-blue-900">{results.risk_category.risk_category} Risk ({Math.round(results.risk_category.probabilities[results.risk_category.risk_category as keyof typeof results.risk_category.probabilities])}% confidence)</p>
                   </div>
                   <div className="p-3 rounded-lg bg-white/80 border border-blue-100">
-                    <p className="text-blue-600">Patient Segment (K-Means Clustering)</p>
+                    <p className="text-blue-600">K-Means – Cluster Patient Risk Segments</p>
                     <p className="font-semibold text-blue-900">{results.patient_segment.cluster_name}</p>
                   </div>
                 </div>

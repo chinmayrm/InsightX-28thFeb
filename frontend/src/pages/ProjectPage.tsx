@@ -107,9 +107,16 @@ export function ProjectPage() {
             <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-blue-900 mb-2">
               InsightX
             </h1>
-            <p className="text-blue-700/80 text-base">
+            <p className="text-blue-700 font-bold text-lg md:text-2xl" style={{lineHeight:1.2}}>
               Smart Healthcare Risk Prediction & Patient Segmentation System
             </p>
+
+            {/* Description Section */}
+            <div className="max-w-2xl mx-auto mt-2 mb-4">
+              <div className="text-xs md:text-sm text-blue-800 leading-relaxed text-center">
+                Healthcare analytics platform designed for smart healthcare risk prediction, patient segmentation, medical expense estimation, and disease classification. It combines a Python-based FastAPI backend with a modern React + TypeScript frontend.
+              </div>
+            </div>
             
             {/* Backend Status */}
             <div className="mt-3 flex items-center justify-center gap-4">

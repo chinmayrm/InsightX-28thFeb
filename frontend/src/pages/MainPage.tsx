@@ -70,8 +70,28 @@ export function MainPage() {
             </h1>
           </div>
 
-          {/* Team Members Table */}
           <div className="max-w-2xl mx-auto">
+            {/* Problem Statement card */}
+            <div className="bg-gray-900/70 backdrop-blur-md border border-gray-700/50 rounded-2xl p-6 shadow-xl mb-6">
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <span className="text-green-400 font-medium">Problem Statement</span>
+              </div>
+              
+              <p className="text-white font-bold text-xl md:text-2xl" style={{lineHeight:1.2}}>
+                Smart Healthcare Risk Prediction & Patient Segmentation System
+              </p>
+            </div>
+
+            {/* Interactive Button - After Problem Statement */}
+            <div className="flex justify-center mb-6">
+              <InteractiveHoverButton 
+                text="Open Project" 
+                className="w-44" 
+                onClick={() => navigate('/project')}
+              />
+            </div>
+
+            {/* Team Members Table */}
             <div className="bg-gray-900/70 backdrop-blur-md border border-gray-700/50 rounded-2xl p-6 shadow-xl mb-6">
               <h2 className="text-xl font-semibold text-white mb-4">Team Members</h2>
               <div className="overflow-hidden rounded-lg border border-gray-700/50">
@@ -96,40 +116,20 @@ export function MainPage() {
               </div>
             </div>
 
-            {/* Problem Statement card */}
-            <div className="bg-gray-900/70 backdrop-blur-md border border-gray-700/50 rounded-2xl p-6 shadow-xl mb-8">
-              <div className="flex items-center justify-center gap-3 mb-4">
-                <span className="text-green-400 font-medium">Problem Statement</span>
-              </div>
-              
-              <p className="text-white text-lg font-medium">
-                Smart Healthcare Risk Prediction & Patient Segmentation System
-              </p>
-            </div>
-
-            {/* Interactive Button */}
-            <div className="flex justify-center mt-4">
-              <InteractiveHoverButton 
-                text="Open Project" 
-                className="w-44" 
-                onClick={() => navigate('/project')}
-              />
-            </div>
-
             {/* Coordinators Section */}
             <div className="mt-8 text-center">
               <div className="flex flex-wrap justify-center gap-8 text-sm">
                 <div>
+                  <span className="text-gray-500">Judge:</span>
+                  <span className="text-white ml-2">Prof. Chetan Bulla</span>
+                </div>
+                <div>
                   <span className="text-gray-500">Coordinator:</span>
-                  <span className="text-white ml-2">Lakshmi P Kolur</span>
+                  <span className="text-white ml-2">Prof. Lakshmi P Kolur</span>
                 </div>
                 <div>
                   <span className="text-gray-500">HoD:</span>
-                  <span className="text-white ml-2">Bharati Reshmi</span>
-                </div>
-                <div>
-                  <span className="text-gray-500">Vice President:</span>
-                  <span className="text-white ml-2">Vikas A</span>
+                  <span className="text-white ml-2">Dr. Bharati Reshmi</span>
                 </div>
               </div>
             </div>
