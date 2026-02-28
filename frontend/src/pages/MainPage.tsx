@@ -102,8 +102,8 @@ export function MainPage() {
                 <span className="text-green-400 font-medium">Problem Statement</span>
               </div>
               
-              <p className="text-gray-500 text-sm">
-                Awaiting problem statement...
+              <p className="text-white text-lg font-medium">
+                Smart Healthcare Risk Prediction & Patient Segmentation System
               </p>
             </div>
 
